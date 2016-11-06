@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>showCustomer</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			font-family: 'Microsoft Yahei',Arial;
+		}
+		.container{
+			width: 400px;
+			margin: 0 auto;
+		}
+		#txtHint{
+			margin: 30px auto;
+		}
+		.tab{
+			border-spacing: 0;
+			border-collapse: collapse;
+			background: #ddd;
+			width: 100%;
+			text-align: left;
+    		text-indent: 20px;
+		}
+		.tab th{
+			width: 165px;
+		}
+	</style>
+</head>
+<body>
+	<form class="container">
+		<p>请选择一位客户：<select onchange="showCustomer(this.value)">
+			<option value="Apple Computer,Inc.">Apple Computer,Inc.</option>
+			<option value="Baidu,Inc.">Baidu,Inc.</option>
+			<option value="Canon USA,Inc.">Canon USA,Inc.</option>
+			<option value="Google,Inc.">Google,Inc.</option>
+			<option value="	Nokia Corporation">Nokia Corporation</option>
+			<option value="Sony Corporation of America">Sony Corporation of America</option>
+		</select></p>
+	</form>
+	<div id="txtHint"></div>
+	<script type="text/javascript">
+		function showCustomer(str){
+			var xmlhttp = new XMLHttpRequest();
+			if(str == ""){
+				document.getElementById('txtHint').innerHTML="";
+				return;
+			}
+			xmlhttp.onreadystatechange = function(){
+				if(xmlhttp.readyState === 4){
+					if(xmlhttp.status === 200){
+						document.getElementById('txtHint').innerHTML = xmlhttp.responseText;
+					}
+				}
+			}
+			xmlhttp.open('GET','test2.php?q='+str,true);
+			xmlhttp.send();
+		}
+	</script>
+</body>
+</html>

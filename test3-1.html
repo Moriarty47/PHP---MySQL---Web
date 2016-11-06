@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+	<title>XMLload</title>
+	<style type="text/css">
+		@media screen and (max-width: 450px){
+			*{
+				margin: 10px;
+				padding: 10px;
+				font-size: 25px;
+			}
+		}
+		*{
+			margin: 0;
+			padding: 0;
+			font-family: 'Microsoft Yahei',Verdana;
+		}
+		.container{
+			margin: 10px auto;
+			text-align: center;
+			background: #eee;
+		}
+		#txtHint{
+			width: 300px;
+			position: relative;
+			margin: 0 auto;
+			border: 1px solid #ddd;
+			background: #ccc;
+		}
+		#txtHint::before,#txtHint::after{
+			content: "";
+			position: absolute;
+			z-index: -1;
+			box-shadow: 0px 0px 20px rgba(0,0,0,0.8);
+			top: 50%;bottom: 0;
+			left: 10px;right: 10px;
+			border-radius: 100px / 10px;
+		}
+	</style>
+</head>
+<body>
+	<form class="container">
+		<p>选择CD：<select name="cds" onchange="showCD(this.value)">
+			<option value="Bob Dylan">Bob Dylan</option>
+			<option value="Bonnie Tyler">Bonnie Tyler</option>
+			<option value="Dolly Parton">Dolly Parton</option>
+		</select></p>
+	</form>
+	<div id="txtHint"></div>
+	<script type="text/javascript">
+		var xmlhttp;
+		function showCD(str){
+			xmlhttp = GetXMLHttpObject();
+			if(xmlhttp == null){
+				alert('Browser does not support HTTP Request');
+				return;
+			}
+			var url='test3.php';
+			url = url+'?q='+str;
+			url = url+'&sid='+Math.random();
+			xmlhttp.onreadystatechange = function(){
+				if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
+					document.getElementById('txtHint').innerHTML = xmlhttp.responseText;
+				}
+			}
+			xmlhttp.open('GET',url,true);
+			xmlhttp.send(null);
+		}
+		function GetXMLHttpObject(){
+			var xmlhttp = null;
+			try{
+				xmlhttp = new XMLHttpRequest();
+			}catch(e){
+				try{
+					xmlhttp = new ActiveXObject('Msxm12.XMLHTTP');
+				}catch(e){
+					xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
+				}
+			}
+			return xmlhttp;
+		}
+	</script>
+</body>
+</html>

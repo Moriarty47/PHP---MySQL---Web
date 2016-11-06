@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>loadXMLDoc</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+		}
+		#txtCDInfo{
+			margin: 15px 0 0 0 ;
+			border: 0;
+			text-align: center;
+		}
+		button{
+			font-family: Verdana,Arial,Helvetica,sans-serif;
+			font-size: 12px;
+		}
+		.tab{
+			border-spacing: 0;
+			border-collapse: collapse;
+			background: #ddd;
+			width: 100%;
+			text-align: left;
+    		text-indent: 20px;
+    		table-layout: fixed;
+		}
+	</style>
+</head>
+<body>
+	<div id="txtCDInfo">
+		<button onclick="loadXMLDoc('test3.xml')">获取CD信息</button>
+	</div>
+	<script type="text/javascript">
+		function loadXMLDoc(url){
+			var xmlhttp = new XMLHttpRequest();
+			var txt,xx,x,i;
+			xmlhttp.onreadystatechange = function(){
+				if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
+					txt = "<table border='1' class='tab'><tr><th style='width:235px;'>Title</th><th style='width:170px;'>Artist</th><th>PRICE</th><th>YEAR</th></tr>";
+					x = xmlhttp.responseXML.documentElement.getElementsByTagName('CD');
+					for(i=0;i<x.length;i++){
+						txt = txt + "<tr>";
+						xx = x[i].getElementsByTagName('TITLE');
+						{
+							try{
+								txt = txt + "<td>" + xx[0].firstChild.nodeValue + "</td>";
+							}catch(er){
+								txt = txt + "<td> </td>";
+							}
+						}
+						xx = x[i].getElementsByTagName('ARTIST');
+						{
+							try{
+								txt = txt + "<td>" + xx[0].firstChild.nodeValue + "</td>";
+							}catch(er){
+								txt = txt + "<td> </td>";
+							}
+						}
+						xx = x[i].getElementsByTagName('PRICE');
+						{
+							try{
+								txt = txt + "<td>" + xx[0].firstChild.nodeValue + "</td>";
+							}catch(er){
+								txt = txt + "<td> </td>";
+							}
+						}
+						xx = x[i].getElementsByTagName('YEAR');
+						{
+							try{
+								txt = txt + "<td>" + xx[0].firstChild.nodeValue + "</td>";
+							}catch(er){
+								txt = txt + "<td> </td>";
+							}
+						}
+						txt = txt + "</tr>";
+					}
+					txt = txt + "</table>";
+					document.getElementById('txtCDInfo').innerHTML = txt;
+				}
+			}
+			xmlhttp.open('GET',url,true);
+			xmlhttp.send();
+		}
+	</script>
+</body>
+</html>

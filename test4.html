@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" ondragstart="return false;">
+<head>
+	<meta charset="UTF-8">
+	<title>PHP和AJAX投票</title>
+	<style type="text/css">
+		*{
+			margin: 0;
+			padding: 0;
+			font-family: Verdana;
+		}
+		.container,#poll{
+			margin: 50px auto;
+			text-align: center;
+		}
+		#poll table{
+			width: 50%;
+			margin: 0 auto;
+			text-align: left;
+			background: #bbb;
+		}
+		h2{
+			background: #bbb;
+		}
+		img{
+			border-radius: 10px;
+		}
+		p{
+			display: inline-block;
+		}
+	</style>
+</head>
+<body>
+	<div id="poll">
+	<form class="container">
+		<h2>你喜欢PHP和JAVA吗？</h2>
+		<input type="radio" name="vote" value="0" onclick="getVote(this.value)"><p>Yes</p>
+		<input type="radio" name="vote" value="1" onclick="getVote(this.value)"><p>No</p>
+	</form>
+	</div>
+	<script type="text/javascript">
+		var xmlhttp;
+		function getVote(int){
+			xmlhttp = GetXMLHttpObject();
+			if(xmlhttp == null){
+				alert('Browser does not support HTTP Request');
+				return;
+			}
+			var url = 'test4.php';
+			url = url+'?vote='+int;
+			url = url+'&sid='+Math.random();
+			xmlhttp.onreadystatechange = function(){
+				if(xmlhttp.readyState === 4 && xmlhttp.status === 200){
+					document.getElementById('poll').innerHTML = xmlhttp.responseText;
+				}
+			}
+			xmlhttp.open('GET',url,true);
+			xmlhttp.send(null);
+		}
+
+		function GetXMLHttpObject(){
+			var xmlhttp = null;
+			try{
+				xmlhttp = new XMLHttpRequest();
+			}catch(e){
+				try{
+					xmlhttp = new ActiveXObject('Msxm12.XMLHTTP');
+				}catch(e){
+					xmlhttp = new ActiveXObject('Microsoft.XMLHTTP');
+				}
+			}
+			return xmlhttp;
+		}
+	</script>
+</body>
+</html>
